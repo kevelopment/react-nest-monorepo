@@ -339,6 +339,16 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 }
 ```
 
+As a last measure, we'll make sure the PrismaService can be imported from other modules, by setting the `exports` property of the PrismaModule. This will allow the service to be used "outside" of the constraints of the module.
+
+```typescript
+@Module({
+  providers: [PrismaService],
+  exports: [PrismaService],
+})
+export class PrismaModule {}
+```
+
 ###### Seeding
 
 This will add data used for development purposes to our database (Guide: https://www.prisma.io/docs/orm/prisma-migrate/workflows/seeding).
@@ -370,3 +380,39 @@ pnpm i -D @types/bcrypt
 
 TODO: init faker
 We'll use fakerjs for randomizing data
+
+##### Authentication
+
+Now that we have users we can authenticate them via JWT using this Guide https://docs.nestjs.com/security/authentication#jwt-token
+
+###### Auth module
+
+Let's create a module used for handling authorization logic
+
+```bash
+nest g module auth
+nest g controller auth
+nest g service auth
+```
+
+To encapsulate some logic specific to users we'll additionally create a users module
+
+```bash
+nest g module users
+nest g service users
+```
+
+No we can populate the UsersService with some logic, i.e. making use of our PrismaClient to find users.
+⚠️ We have to make sure that the UsersModule will import the PrismaModule so the dependency injection works properly.
+
+```typescript
+@Module({
+  imports: [PrismaModule],
+  providers: [UsersService],
+})
+export class UsersModule {}
+```
+
+Let's start gluing this together by implementing the `signIn` logic within the `AuthService`. For this we'll need to fetch the user by username (= email), check whether the user is Authorized and generate a JWT (later on) which shall be returned by the service.
+
+After that's done we need to set up the login route within our Controller. For this we'll declare a Post endpoint under the path `/login` that accepts a request body matching the parameters of the LoginDTO (validation will be added later).
