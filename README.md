@@ -416,3 +416,73 @@ export class UsersModule {}
 Let's start gluing this together by implementing the `signIn` logic within the `AuthService`. For this we'll need to fetch the user by username (= email), check whether the user is Authorized and generate a JWT (later on) which shall be returned by the service.
 
 After that's done we need to set up the login route within our Controller. For this we'll declare a Post endpoint under the path `/login` that accepts a request body matching the parameters of the LoginDTO (validation will be added later).
+
+###### JWT Token
+
+We need to use the package `@nestjs/jwt` which will provide a `JwtService` which can be used right away by the dependency injection.
+
+```bash
+pnpm install --save @nestjs/jwt
+```
+
+For the password comparison we'll use `compareSync` (alternatively `compare` will work just as fine but with an additional await) from `bcrypt`. On successful comparison we can use the id as well as the username (= email) of the User to create and sign a JWT.
+
+Now let's start the backend and test the new endpoint by using `cURL`
+
+```bash
+curl -X POST http://localhost:3000/auth/login -d '{"username": "alice@prisma.io", "password": "password1"}' -H "Content-Type: application/json"
+```
+
+the result should look like this (`xxxxx.yyyyy.zzzzz`)
+
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYzlkMmNkN..."
+}
+```
+
+###### Auth Guard
+
+NestJS (just like Angular) uses Guards to protect routes or endpoints
+
+```bash
+nest g guard auth
+```
+
+This Guard will implement the `canActivate` interface which needs to return either true (= access allowed) or false (= access prohibited). In the function we need to extract the token from request headers and verify it using the JwtService.
+Once we got a valid request, we can enhance the request object with the user data by populating the key `user` of it.
+
+To verify it worked, execute the following
+
+```bash
+curl http://localhost:3000/auth/profile
+```
+
+should result in:
+
+```json
+{ "statusCode": 401, "message": "Unauthorized" }
+```
+
+now let's get an access token
+
+```bash
+curl -X POST http://localhost:3000/auth/login -d '{"username": "alice@prisma.io", "password": "password1"}' -H "Content-Type: application/json"
+```
+
+and try it again using the access_token
+
+```bash
+curl http://localhost:3000/auth/profile -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYzlkMmNkNy01NTkzLTQ5YzIt..."
+```
+
+should result in
+
+```json
+{
+  "sub": "2c9d2cd7-5593-49c2-91b6-0ea112378e0d",
+  "username": "alice@prisma.io",
+  "iat": 1732976765,
+  "exp": 1732977665
+}
+```
