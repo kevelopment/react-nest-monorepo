@@ -486,3 +486,27 @@ should result in
   "exp": 1732977665
 }
 ```
+
+Now we'll do some cleanup and "make it pretty" ✨
+
+1. Let's enable the AuthGuard globally so all routes will be protected by default (tin-foil strats).
+2. Create a custom decorator to mark a route as Public
+3. extend the AuthGuard so it can deal with the `isPublic` flag
+
+Finally let's move the `profile` endpoint into a GET /user endpoint
+
+```bash
+nest g controller users
+```
+
+The endpoint will listen to the route `/me` (without any parameters!) and should return the user details without password.
+
+For this to work we can utilize the user data we set on the Request object in the AuthGuard (where sub = userId) to fetch and return the user by id.
+
+Aaaaand it's DONE 🙌 (well not quite since a project or software in general is never really done, )
+
+#### Frontend
+
+Now that we have a functioning backend
+
+##### Login
