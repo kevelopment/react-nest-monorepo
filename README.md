@@ -534,4 +534,19 @@ After that's done we can add some decorators to the fields `username` and `passw
 
 Now that we have a functioning backend we can start implementing some stuff in the frontend, e.g. a login-form.
 
-##### Login
+##### Prerequisites
+
+###### Storybook
+
+Before we can actually start developing components we should set up storybook to enable an easier component based workflow.
+
+To install it simply run:
+
+```bash
+npx storybook@latest init
+```
+
+and the storybook setup wizard will initialize everything for you ✨
+
+Once Storybook has been installed we'll restructure the way it has been hoisted into our project and remove the parts we're not going to use. We can keep the `button` and `header` components for now so it'll be easier than creating them from scratch.
+
