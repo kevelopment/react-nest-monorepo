@@ -505,6 +505,31 @@ For this to work we can utilize the user data we set on the Request object in th
 
 Aaaaand it's DONE 🙌 (well not quite since a project or software in general is never really done, )
 
+##### Validation
+
+Since every robust backend should have input validation, we might as well just add it now for the LoginDto so we don't have to worry about it.
+
+###### Validation Pipe
+
+We'll be utilizing the default built in validation pipe. For this to be fully working we'll need two additional packages:
+
+- `class-validator`: used to validate keys of an object
+- `class-transformer`: used to transform plain objects into typed objects
+
+```bash
+pnpm i --save class-validator class-transformer
+```
+
+Now that we've got them installed, we'll register the ValidationPipe globally to make sure each and every input to an endpoint will be validated first and throw an Error if validation fails.
+
+Open up the `main.ts` and add the following to the app startup:
+
+```typescript
+app.useGlobalPipes(new ValidationPipe());
+```
+
+After that's done we can add some decorators to the fields `username` and `password` of our `LoginDTO`.
+
 #### Frontend
 
 Now that we have a functioning backend
