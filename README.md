@@ -532,6 +532,6 @@ After that's done we can add some decorators to the fields `username` and `passw
 
 #### Frontend
 
-Now that we have a functioning backend
+Now that we have a functioning backend we can start implementing some stuff in the frontend, e.g. a login-form.
 
 ##### Login
