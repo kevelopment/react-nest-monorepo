@@ -550,3 +550,22 @@ and the storybook setup wizard will initialize everything for you ✨
 
 Once Storybook has been installed we'll restructure the way it has been hoisted into our project and remove the parts we're not going to use. We can keep the `button` and `header` components for now so it'll be easier than creating them from scratch.
 
+###### React router
+
+(Props to: https://www.w3schools.com/react/react_router.asp)
+
+Every complex frontend will utilize a routing framework so we can move around between pages and routes.
+We'll use `react-router-dom` for this purpose, which can be installed by running:
+
+```bash
+pnpm i -D react-router-dom@latest
+```
+
+Once it's installed, create the folder `pages` which will contain several files
+
+- Layout.tsx - used as a general layout for our page (base styling etc.)
+- Home.tsx - used as an entrypoint (= landingpage) for our website
+- Signup.tsx - used for the sign-up of a new user
+- NotFound.tsx - used as a catch-all route in case the path could not be matched
+
+Now the main content from `App.tsx` can be moved into our `Home` Component since `App.tsx` will (for now) contain the logic for the routing of our app. **Important note:** `Layout.tsx` will need to contain an `<Outlet />` node which will render the current page content the react-router is supposed to display.
