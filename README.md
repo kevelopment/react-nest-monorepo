@@ -673,3 +673,16 @@ npx heroui-cli@latest add button
 ```
 
 Now we can delete all contents of `components/button` which will lead to having us replace all occurances of the Button component in e.g. `Home.tsx`, `Header.tsx` and `Login.tsx`.
+
+Next up is switching the inputs from native HTML inputs to HeroUI inputs.
+We'll install input, alert and link components since we're going to use them anyways.
+
+```bash
+npx heroui-cli@latest add input alert link
+```
+
+🚨**Important note:** add the following line into `preview.tsx` to fix the styling of all Stories. Otherwise tailwind styles will not be included into stories.
+
+```ts
+import '../src/global.css';
+```
