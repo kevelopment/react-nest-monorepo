@@ -1,0 +1,38 @@
+.login-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+
+  text-align: center;
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.form-label {
+  grid-column-start: 0;
+  grid-column-end: 2;
+}
+
+.login-header {
+  margin-top: 50%;
+}
+
+.card {
+  padding: 1rem;
+  border: 1px solid gainsboro;
+  border-radius: 1rem;
+}
+
+input {
+  padding: 0.5rem;
+}
+
+.login-footer {
+  margin-top: 1rem;
+}

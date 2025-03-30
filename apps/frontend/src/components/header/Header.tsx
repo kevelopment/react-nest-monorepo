@@ -1,5 +1,8 @@
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../button/Button';
 import './header.css';
+import { Paths } from '../../Paths';
+import { useCallback } from 'react';
 
 type User = {
   name: string;
@@ -12,7 +15,23 @@ export interface HeaderProps {
   onCreateAccount?: () => void;
 }
 
-export const Header = ({
+export const Header = () => {
+  // TODO: user object will probably need some context to be stored in once a User has logged in successfully
+  const navigate = useNavigate();
+
+  const navigateToSignUp = useCallback(
+    () => navigate(Paths.SIGNUP),
+    [navigate],
+  );
+
+  const navigateToLogin = useCallback(() => navigate(Paths.LOGIN), [navigate]);
+
+  return (
+    <HeaderView onCreateAccount={navigateToSignUp} onLogin={navigateToLogin} />
+  );
+};
+
+export const HeaderView = ({
   user,
   onLogin,
   onLogout,

@@ -1,8 +1,20 @@
 # React + NestJS Monorepo
 
-Prerequisite: Install Node v22 (corepack will come with it)
+This Project aims to maintain an opinionated bootstrap application using React and NestJS which can be used for an easy web-app start.
+
+The Technologies currently in use are:
+
+- backend: nestjs + prisma + postgres
+- frontend: react + vite + storybook + react-hook-forms
+- package-manager: pnpm
+
+‼️ This project is still heavily **W**ork **i**n **P**rogress and many bits and pieces are still missing.
+
+Below you can find a step by step guide of what has been added and how it's been done :)
 
 ## Workspace Setup:
+
+Prerequisite: Install Node v22 (corepack will come with it)
 
 (Props to https://dev.to/vinomanick/create-a-monorepo-using-pnpm-workspace-1ebn)
 
