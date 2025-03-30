@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Button } from '../../components/button/Button';
 import './Login.css';
 import { useForm } from 'react-hook-form';
+import { Button } from '@heroui/react';
 
 export const LoginPage = () => {
   return (
@@ -78,7 +78,9 @@ const LoginForm = () => {
       />
       {errors.password && <span role="alert">{errors.password.message}</span>}
 
-      <Button disabled={isLoading} primary type="submit" label="Login" />
+      <Button disabled={isLoading} color="primary" type="submit">
+        Login
+      </Button>
     </form>
   );
 };

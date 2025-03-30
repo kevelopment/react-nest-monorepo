@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../button/Button';
 import './header.css';
 import { Paths } from '../../Paths';
 import { useCallback } from 'react';
+import { Button } from '@heroui/react';
 
 type User = {
   name: string;
@@ -69,17 +69,18 @@ export const HeaderView = ({
             <span className="welcome">
               Welcome, <b>{user.name}</b>!
             </span>
-            <Button size="small" onClick={onLogout} label="Log out" />
+            <Button size="sm" onPress={onLogout}>
+              Log out
+            </Button>
           </>
         ) : (
           <>
-            <Button size="small" onClick={onLogin} label="Log in" />
-            <Button
-              primary
-              size="small"
-              onClick={onCreateAccount}
-              label="Sign up"
-            />
+            <Button size="sm" onPress={onLogin}>
+              Log in
+            </Button>
+            <Button color="primary" size="sm" onPress={onCreateAccount}>
+              Sign up
+            </Button>
           </>
         )}
       </div>

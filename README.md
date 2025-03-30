@@ -581,3 +581,95 @@ Once it's installed, create the folder `pages` which will contain several files
 - NotFound.tsx - used as a catch-all route in case the path could not be matched
 
 Now the main content from `App.tsx` can be moved into our `Home` Component since `App.tsx` will (for now) contain the logic for the routing of our app. **Important note:** `Layout.tsx` will need to contain an `<Outlet />` node which will render the current page content the react-router is supposed to display.
+
+###### Component library
+
+To ease the process of dealing with e.g. forms and their validation we'll introduce some tools that'll make our life easier.
+
+Our goal is to add the following tools:
+
+- `HeroUI` as Component library (see https://www.heroui.com/docs/guide/installation)
+- `react-hook-form` for form handling (see https://react-hook-form.com/)
+
+`react-hook-form` can be installed effortlessly by running
+
+```bash
+pnpm install react-hook-form
+```
+
+`HeroUI` on the other hand requires a few requisites:
+
+- React 18 (which we're using already)
+- `tailwindcss` for styling (see https://v3.tailwindcss.com/docs/guides/vite)
+- Framer Motion (>= 11.9) for animations (see https://motion.dev/)
+
+Let's start by adding `tailwindcss` by running these steps:
+
+```bash
+pnpm install -D tailwindcss@3 postcss autoprefixer
+```
+
+to install the required dependencies for tailwind (note: since we're using vite as bundler we'll follow this specific guide). Right after that execute
+
+```bash
+npx tailwindcss init -p --ts
+```
+
+to initialize tailwind as well as postcss. In the `tailwind.config.ts`, add the files we need to include:
+
+```ts
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+```
+
+Finally update `global.css` to include all tailwind directives into the css file.
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+...
+```
+
+Now we can start adding `HeroUI`. We'll follow the manual setup guide from https://www.heroui.com/docs/frameworks/vite.
+
+```bash
+pnpm add @heroui/react framer-motion
+```
+
+Create a `.npmrc` at the roof ot the repository and add the following line
+
+```bash
+public-hoist-pattern[]=*@heroui/*
+```
+
+Next up, adjust the `tailwind.config.ts` file
+
+```ts
+import { heroui } from '@heroui/react';
+
+export default {
+  content: [
+    ...
+    './node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
+  ],
+  ...
+  darkMode: 'class',
+  plugins: [heroui()],
+```
+
+and lastly update `main.tsx` to wrap the whole App into a `HeroUIProvider`.
+
+###### Cleanup
+
+Now that we're utilizing a fully featured component library we can remove some old and unused components.
+
+Let's start by removing the old, custom Button Component we received when adding Storybook.
+
+First of all we'll add the HeroUI Button dependency:
+
+```bash
+npx heroui-cli@latest add button
+```
+
+Now we can delete all contents of `components/button` which will lead to having us replace all occurances of the Button component in e.g. `Home.tsx`, `Header.tsx` and `Login.tsx`.

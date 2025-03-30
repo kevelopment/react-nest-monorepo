@@ -2,7 +2,7 @@ import reactLogo from '../assets/react.svg';
 import viteLogo from '/vite.svg';
 import { useState } from 'react';
 import './Home.css';
-import { Button } from '../components/button/Button';
+import { Button } from '@heroui/react';
 
 export const Home = () => {
   const [count, setCount] = useState(0);
@@ -19,11 +19,9 @@ export const Home = () => {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <Button
-          primary
-          label={`count is ${count}`}
-          onClick={() => setCount((count) => count + 1)}
-        />
+        <Button color="primary" onPress={() => setCount(count + 1)}>
+          count is {count}
+        </Button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
