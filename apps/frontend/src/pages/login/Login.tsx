@@ -17,15 +17,29 @@ export const LoginPage = () => {
     return access_token as string;
   };
 
-  return <LoginForm onLoginSubmit={loginSubmitCallback} />;
+  const loginSuccessCallback = () => {
+    // TODO: redirect to actual app
+    console.log('nothing');
+  };
+
+  return (
+    <LoginForm
+      onLoginSubmit={loginSubmitCallback}
+      onLoginSuccess={loginSuccessCallback}
+    />
+  );
 };
 
 type LoginFormInputs = { username: string; password: string };
 
 type LoginFormProps = {
   onLoginSubmit: (formData: LoginFormInputs) => Promise<string | undefined>;
+  onLoginSuccess: () => void;
 };
-export const LoginForm = ({ onLoginSubmit }: LoginFormProps) => {
+export const LoginForm = ({
+  onLoginSubmit,
+  onLoginSuccess,
+}: LoginFormProps) => {
   const {
     register,
     handleSubmit,
@@ -48,6 +62,8 @@ export const LoginForm = ({ onLoginSubmit }: LoginFormProps) => {
 
       setSuccess(`Success! You'll be redirected in a second`);
       setError('');
+
+      onLoginSuccess();
     } catch (e) {
       setError('Something went wrong, please try again later.');
       console.log({ e });
@@ -72,6 +88,7 @@ export const LoginForm = ({ onLoginSubmit }: LoginFormProps) => {
           <Input
             type="text"
             placeholder="E-Mail"
+            data-testId="username"
             {...register('username', {
               required: true,
               pattern: {
@@ -90,6 +107,7 @@ export const LoginForm = ({ onLoginSubmit }: LoginFormProps) => {
           <Input
             type="password"
             placeholder="Password"
+            data-testId="password"
             {...register('password', {
               required: true,
               minLength: {

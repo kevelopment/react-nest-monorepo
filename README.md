@@ -686,3 +686,39 @@ npx heroui-cli@latest add input alert link
 ```ts
 import '../src/global.css';
 ```
+
+###### Storybook interactions
+
+To visualize different states of a (Page) component we'll now introduce storybook interactions. This way we can fill form fields and click the submit button to verify e.g. validation states. (Guide: https://storybook.js.org/docs/essentials/interactions#set-up-the-interactions-addon)
+
+```bash
+pnpm install @storybook/test @storybook/addon-interactions --save-dev
+```
+
+Note: looks like this already has been installed during the initial setup
+
+Additionally we'll introduce the Storybook test runner, so our storybook interactions can double as component tests. (Source: https://storybook.js.org/docs/writing-tests/test-runner#setup)
+
+```bash
+pnpm install @storybook/test-runner --save-dev
+```
+
+and we need to update our frontend `package.json` with the following script
+
+```json
+{
+  ...
+  "scripts": {
+    "test-storybook": "test-storybook"
+  }
+}
+```
+
+running this will most likely result in an error because the storybook testing plugin is powered by playwright, which is not installed yet.
+Let's go ahead and set this (w)right.
+
+```bash
+pnpm create playwright
+```
+
+will prompt for a couple of questions. We'll set `/apps/frontend/e2e` as our source directory for end-to-end tests and install most recent browsers.
